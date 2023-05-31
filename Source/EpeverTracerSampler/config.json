@@ -1,0 +1,17 @@
+{
+  "Charger": {
+    "Port": "COM1",
+    "Baudrate": 11520,
+    "DeviceId": 1,
+    "SampleInterval": 1000
+  },
+  "Mqtt": {
+    "Host": "localhost",
+    "Port": 1883,
+    "Authenticate": false,
+    "User": "",
+    "Password": "",
+    "BaseTopic": "solar",
+    "ClientId": "Sampler"
+  }
+}

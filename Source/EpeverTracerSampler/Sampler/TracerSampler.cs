@@ -47,20 +47,20 @@ namespace EpeverTracerSampler.Sampler
             {
                 var r = _clt.ReadInputRegisters(_id, 0x3100, 18);
 
-                double pvVoltage = BitConverter.ToInt16(r) / 100.0; // 0x3100, 1/100 V
-                double pvCurrent = BitConverter.ToInt16(r.Slice(1)) / 100.0; // 0x3101, 1/100 A
-                double pvPower = BitConverter.ToInt32(r.Slice(2)) / 100.0; // 0x3102, 1/100 W 32 bit
+                                double pvVoltage = BitConverter.ToInt16(r) / 100.0; // 0x3100, 1/100 V
+                double pvCurrent = BitConverter.ToInt16(r.Slice(2)) / 100.0; // 0x3101, 1/100 A
+                double pvPower = BitConverter.ToInt32(r.Slice(4)) / 100.0; // 0x3102, 1/100 W 32 bit
 
-                double batteryVoltage = BitConverter.ToInt16(r.Slice(4)) / 100.0; // 0x3104, 1/100V
-                double batteryCurrent = BitConverter.ToInt16(r.Slice(5)) / 100.0; // 0x3105, 1/100A
-                double batteryPower = BitConverter.ToInt32(r.Slice(6)) / 100.0; // 0x3106, 1/100 W 32 bit
+                double batteryVoltage = BitConverter.ToInt16(r.Slice(8)) / 100.0; // 0x3104, 1/100V
+                double batteryCurrent = BitConverter.ToInt16(r.Slice(10)) / 100.0; // 0x3105, 1/100A
+                double batteryPower = BitConverter.ToInt32(r.Slice(12)) / 100.0; // 0x3106, 1/100 W 32 bit
 
-                double loadVoltage = BitConverter.ToInt16(r.Slice(0xC)) / 100.0; // 0x310C, 1/100V
-                double loadCurrent = BitConverter.ToInt16(r.Slice(0xD)) / 100.0; // 0x310D, 1/100A
-                double loadPower = BitConverter.ToInt32(r.Slice(0xF)) / 100.0; // 0x310F, 1/100 W 32 bit
+                double loadVoltage = BitConverter.ToInt16(r.Slice(0xC * 2)) / 100.0; // 0x310C, 1/100V
+                double loadCurrent = BitConverter.ToInt16(r.Slice(0xD * 2)) / 100.0; // 0x310D, 1/100A
+                double loadPower = BitConverter.ToInt32(r.Slice(0xF * 2)) / 100.0; // 0x310F, 1/100 W 32 bit
 
-                double batteryTemp = BitConverter.ToInt16(r.Slice(0x10)) / 100.0; // 0x3110, 1/100 °C
-                double deviceTemp = BitConverter.ToInt16(r.Slice(0x11)) / 100.0; // 0x3111, 1/100 °C
+                double batteryTemp = BitConverter.ToInt16(r.Slice(0x10 * 2)) / 100.0; // 0x3110, 1/100 °C
+                double deviceTemp = BitConverter.ToInt16(r.Slice(0x11 * 2)) / 100.0; // 0x3111, 1/100 °C
 
                 var s = new TracerSample(DateTime.Now, new()
             {

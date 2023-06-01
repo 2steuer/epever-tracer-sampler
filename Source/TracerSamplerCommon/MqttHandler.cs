@@ -12,6 +12,8 @@ namespace TracerSamplerCommon
     {
         private MqttOptions _opt;
 
+        protected MqttOptions Options => _opt;
+
         public bool Running { get; set; } = false;
 
         private IManagedMqttClient? _client = null;
@@ -44,11 +46,24 @@ namespace TracerSamplerCommon
                 {
                     co.WithCredentials(_opt.User, _opt.Password);
                 }
+
+                if (_opt.PublishState)
+                {
+                    co.WithWillTopic(_opt.StateTopic)
+                        .WithWillPayload(_opt.StateOffPayload)
+                        .WithWillRetain(true);
+                }
             });
 
             var c = new MqttFactory().CreateManagedMqttClient();
             await c.StartAsync(ob.Build());
             _client = c;
+
+            await _client.EnqueueAsync(new MqttApplicationMessageBuilder()
+                .WithTopic(_opt.StateTopic)
+                .WithRetainFlag(true)
+                .WithPayload(_opt.StateOnPayload)
+                .Build());
 
             await StartActions();
             Running = true;
@@ -57,7 +72,18 @@ namespace TracerSamplerCommon
         public async Task Stop()
         {
             await StopActions();
+
+            await Client.EnqueueAsync(new MqttApplicationMessageBuilder()
+                .WithTopic(_opt.StateTopic)
+                .WithRetainFlag(true)
+                .WithPayload(_opt.StateOnPayload)
+                .Build());
+
+            await Task.Delay(TimeSpan.FromMilliseconds(250));
+            
             await Client.StopAsync();
+
+            _client = null;
             Running = false;
         }
 

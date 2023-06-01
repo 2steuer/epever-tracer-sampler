@@ -16,18 +16,42 @@ var solar = new TracerSampler(
         cfg.GetValue<int>("Charger:SampleInterval")
     );
 
-var mqttOpt = new MqttOptions
-{
-    Host = cfg.GetValue<string>("Mqtt:Host"),
-    Port = cfg.GetValue<int>("Mqtt:Port"),
-    BaseTopic = cfg.GetValue<string>("Mqtt:BaseTopic"),
-    Authenticate = cfg.GetValue<bool>("Mqtt:Authenticate"),
-    User = cfg.GetValue<string>("Mqtt:User", string.Empty),
-    Password = cfg.GetValue<string>("Mqtt:Password", string.Empty),
-    ClientId = cfg.GetValue<string>("Mqtt:ClientId", Guid.NewGuid().ToString())
-};
 
-//solar.NewSample += NewSampleHandler;
 
+var mqttOpt = MqttOptions.FromConfig(cfg.GetSection("Mqtt"));
+
+var mqtt = new SamplerMqttHandler(mqttOpt);
+
+solar.NewSample += mqtt.SendSample;
+
+await mqtt.Start();
 solar.Start();
 
+TaskCompletionSource cancelSource = new TaskCompletionSource();
+bool haveSigInt = false;
+
+Console.CancelKeyPress += (sender, eventArgs) =>
+{
+    Console.WriteLine("Processing SIGINT");
+    eventArgs.Cancel = true;
+    haveSigInt = true;
+    cancelSource.TrySetResult();
+};
+
+AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) =>
+{
+    if (!haveSigInt)
+    {
+        Console.WriteLine("Processing SIGTERM");
+        cancelSource.TrySetResult();
+    }
+    else
+    {
+       Console.WriteLine($"Got SIGTERM but ignoring it because of SIGINT before");
+    }
+};
+
+await cancelSource.Task;
+
+solar.Stop();
+await mqtt.Stop();

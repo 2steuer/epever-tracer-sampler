@@ -12,6 +12,12 @@
     "User": "",
     "Password": "",
     "BaseTopic": "solar",
-    "ClientId": "Sampler"
+    "ClientId": "Sampler",
+    "State": {
+      "PublishState": true,
+      "Topic": "solar/sampler_state",
+      "OnPayload": "Online",
+      "OffPayload": "Offline"
+    }
   }
 }

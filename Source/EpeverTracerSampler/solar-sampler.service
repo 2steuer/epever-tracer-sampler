@@ -1,0 +1,15 @@
+[Unit]
+Description=Solar Tracer
+Requires=mosquitto.service
+After=mosquitto.service
+
+[Service]
+User=merlin
+ExecStart=/opt/dotnet/dotnet /opt/solar-sampler/EpeverTracerSampler.dll /etc/solar-sampler.json
+WorkingDirectory=/opt/solar-sampler
+RestartSec=30
+Restart=on-failure
+SyslogIdentifier=solar-sampler
+
+[Install]
+WantedBy=multi-user.target

@@ -87,7 +87,7 @@ namespace EpeverTracerSampler.Sampler
 
         public void Start()
         {
-            _clt.Connect(_port, ModbusEndianness.LittleEndian);
+            _clt.Connect(_port);
 
             _timer.Start();
         }

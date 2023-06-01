@@ -76,7 +76,7 @@ namespace TracerSamplerCommon
             await Client.EnqueueAsync(new MqttApplicationMessageBuilder()
                 .WithTopic(_opt.StateTopic)
                 .WithRetainFlag(true)
-                .WithPayload(_opt.StateOnPayload)
+                .WithPayload(_opt.StateOffPayload)
                 .Build());
 
             await Task.Delay(TimeSpan.FromMilliseconds(250));

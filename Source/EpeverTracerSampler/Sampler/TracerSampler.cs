@@ -45,7 +45,7 @@ namespace EpeverTracerSampler.Sampler
 
             try
             {
-                var r = _clt.ReadHoldingRegisters(_id, 0x3100, 28);
+                var r = _clt.ReadInputRegisters(_id, 0x3100, 28);
 
                 double pvVoltage = BitConverter.ToInt16(r) / 100.0; // 0x3100, 1/100 V
                 double pvCurrent = BitConverter.ToInt16(r.Slice(1)) / 100.0; // 0x3101, 1/100 A

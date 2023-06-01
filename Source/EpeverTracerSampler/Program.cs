@@ -23,6 +23,7 @@ var mqttOpt = MqttOptions.FromConfig(cfg.GetSection("Mqtt"));
 var mqtt = new SamplerMqttHandler(mqttOpt);
 
 solar.NewSample += mqtt.SendSample;
+^solar.NewSample += (o, s) => Console.WriteLine("Got a sample");
 
 await mqtt.Start();
 solar.Start();

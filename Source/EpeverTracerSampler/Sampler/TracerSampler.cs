@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentModbus;
+using NLog;
 using TracerSamplerCommon;
 using Timer = System.Timers.Timer;
 
@@ -12,6 +13,8 @@ namespace EpeverTracerSampler.Sampler
 {
     internal class TracerSampler
     {
+        private static ILogger _log = LogManager.GetCurrentClassLogger();
+
         public event Action<object, TracerSample>? NewSample; 
 
         private readonly ModbusRtuClient _clt;
@@ -46,8 +49,6 @@ namespace EpeverTracerSampler.Sampler
 
         private void Sample(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            Console.WriteLine("Sampling...");
-
             try
             {
                 var r = _clt.ReadInputRegisters<short>(_id, 0x3100, 18);
@@ -86,7 +87,7 @@ namespace EpeverTracerSampler.Sampler
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                _log.Error(ex, "Error while sampling Tracer Data!");
             }
         }
 
@@ -95,6 +96,7 @@ namespace EpeverTracerSampler.Sampler
             _clt.Connect(_port, ModbusEndianness.BigEndian);
 
             _timer.Start();
+            _log.Info("Tracer sampling started");
         }
 
         public void Stop()
@@ -105,6 +107,8 @@ namespace EpeverTracerSampler.Sampler
             {
                 _clt.Close();
             }
+
+            _log.Info("Tracer sampling stopped");
         }
     }
 }

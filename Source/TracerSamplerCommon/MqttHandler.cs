@@ -5,11 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MQTTnet.Client.Connecting;
+using MQTTnet.Client.Disconnecting;
+using NLog;
 
 namespace TracerSamplerCommon
 {
     public class MqttHandler
     {
+        private static ILogger _log = LogManager.GetCurrentClassLogger();
+
         private MqttOptions _opt;
 
         protected MqttOptions Options => _opt;
@@ -61,6 +66,8 @@ namespace TracerSamplerCommon
                 }
             });
 
+            _log.Info($"Connecting to MQTT On {_opt.Host}:{_opt.Port}...");
+
             var c = new MqttFactory().CreateManagedMqttClient();
             await c.StartAsync(ob.Build());
             _client = c;
@@ -71,12 +78,31 @@ namespace TracerSamplerCommon
                 .WithPayload(_opt.StateOnPayload)
                 .Build());
 
+            _client.UseConnectedHandler(ConnectedHandler);
+            _client.UseDisconnectedHandler(DisconnectedHandler);
+
+            _log.Debug($"Performing start actions");
             await StartActions();
             Running = true;
+
+            _log.Info($"MQTT Connection started.");
+        }
+
+        private Task DisconnectedHandler(MqttClientDisconnectedEventArgs arg)
+        {
+            _log.Info("MQTT Connected");
+            return Task.CompletedTask;
+        }
+
+        private Task ConnectedHandler(MqttClientConnectedEventArgs arg)
+        {
+            _log.Info("MQTT Disconnected");
+            return Task.CompletedTask;
         }
 
         public async Task Stop()
         {
+            _log.Info($"Stopping MQTT handling");
             await StopActions();
 
             await Client.PublishAsync(new MqttApplicationMessageBuilder()
@@ -91,6 +117,8 @@ namespace TracerSamplerCommon
 
             _client = null;
             Running = false;
+
+            _log.Info($"MQTT Stopped");
         }
 
         protected virtual Task StartActions()

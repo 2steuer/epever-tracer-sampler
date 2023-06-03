@@ -18,6 +18,8 @@ namespace EpeverTracerSampler.Sampler
 
         public async void SendSample(object? sender, TracerSample sample)
         {
+            Console.WriteLine("Sending sample...");
+
             var msg = new ManagedMqttApplicationMessageBuilder()
                 .WithApplicationMessage(new MqttApplicationMessageBuilder()
                     .WithTopic($"{Options.BaseTopic}/samples")
@@ -28,6 +30,8 @@ namespace EpeverTracerSampler.Sampler
                 .Build();
 
             await Client.EnqueueAsync(msg);
+
+            Console.WriteLine($"Enqueued messages: {Client.PendingApplicationMessagesCount}");
         }
     }
 }

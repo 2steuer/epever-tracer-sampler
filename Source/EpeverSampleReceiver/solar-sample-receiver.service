@@ -1,0 +1,15 @@
+[Unit]
+Description=Solar Sample Receiver
+Requires=mosquitto.service
+After=mosquitto.service
+
+[Service]
+User=merlin
+ExecStart=/opt/dotnet/dotnet /opt/solar-sampler/EpeverSampleReceiver.dll /etc/solar-sample-receiver.json
+WorkingDirectory=/opt/solar-sample-receiver
+RestartSec=30
+Restart=on-failure
+SyslogIdentifier=solar-sample-receiver
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,25 @@
+{
+  "Influx": {
+    "Url": "http://localhost:8086",
+    "User": "",
+    "Password": "",
+    "Organization": "",
+    "Database": "",
+    "Token": ""
+  },
+  "Mqtt": {
+    "Host": "localhost",
+    "Port": 1883,
+    "Authenticate": false,
+    "User": "",
+    "Password": "",
+    "BaseTopic": "garten/solar",
+    "ClientId": "Sampler",
+    "State": {
+      "PublishState": true,
+      "Topic": "solar/receiver_state",
+      "OnPayload": "Online",
+      "OffPayload": "Offline"
+    }
+  }
+}

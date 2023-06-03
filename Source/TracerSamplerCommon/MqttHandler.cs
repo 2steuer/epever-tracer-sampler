@@ -90,13 +90,13 @@ namespace TracerSamplerCommon
 
         private Task DisconnectedHandler(MqttClientDisconnectedEventArgs arg)
         {
-            _log.Info("MQTT Connected");
+            _log.Info("MQTT Disconnected");
             return Task.CompletedTask;
         }
 
         private Task ConnectedHandler(MqttClientConnectedEventArgs arg)
         {
-            _log.Info("MQTT Disconnected");
+            _log.Info("MQTT Connected");
             return Task.CompletedTask;
         }
 

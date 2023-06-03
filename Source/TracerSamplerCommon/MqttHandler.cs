@@ -49,9 +49,15 @@ namespace TracerSamplerCommon
 
                 if (_opt.PublishState)
                 {
-                    co.WithWillTopic(_opt.StateTopic)
+                    /*co.WithWillMessage(_opt.StateTopic)
                         .WithWillPayload(_opt.StateOffPayload)
-                        .WithWillRetain(true);
+                        .WithWillRetain(true);*/
+
+                    co.WithWillMessage(new MqttApplicationMessageBuilder()
+                        .WithTopic(_opt.StateTopic)
+                        .WithPayload(_opt.StateOffPayload)
+                        .WithRetainFlag()
+                        .Build());
                 }
             });
 
@@ -59,7 +65,7 @@ namespace TracerSamplerCommon
             await c.StartAsync(ob.Build());
             _client = c;
 
-            await _client.EnqueueAsync(new MqttApplicationMessageBuilder()
+            await _client.PublishAsync(new MqttApplicationMessageBuilder()
                 .WithTopic(_opt.StateTopic)
                 .WithRetainFlag(true)
                 .WithPayload(_opt.StateOnPayload)
@@ -73,7 +79,7 @@ namespace TracerSamplerCommon
         {
             await StopActions();
 
-            await Client.EnqueueAsync(new MqttApplicationMessageBuilder()
+            await Client.PublishAsync(new MqttApplicationMessageBuilder()
                 .WithTopic(_opt.StateTopic)
                 .WithRetainFlag(true)
                 .WithPayload(_opt.StateOffPayload)

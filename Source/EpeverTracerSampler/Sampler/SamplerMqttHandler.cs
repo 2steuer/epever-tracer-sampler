@@ -29,7 +29,7 @@ namespace EpeverTracerSampler.Sampler
                     .Build())
                 .Build();
 
-            await Client.EnqueueAsync(msg);
+            await Client.PublishAsync(msg);
 
             Console.WriteLine($"Enqueued messages: {Client.PendingApplicationMessagesCount}");
         }

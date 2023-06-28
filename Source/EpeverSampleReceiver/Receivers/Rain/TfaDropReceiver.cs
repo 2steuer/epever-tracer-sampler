@@ -28,6 +28,8 @@ namespace EpeverSampleReceiver.Receivers.Rain
             {
                 var s = JsonConvert.DeserializeObject<RainSample>(payload);
 
+                _log.Debug($"Timestamp: {s.Timestamp}, Rainfall: {s.RaimMillimeters}");
+
                 Dictionary<string, double> dic = new Dictionary<string, double>();
                 dic.Add("rainfall_mm", s.RaimMillimeters);
 

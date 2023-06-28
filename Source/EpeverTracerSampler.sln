@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EpeverTracerSampler", "EpeverTracerSampler\EpeverTracerSampler.csproj", "{2B0B0BD6-117A-4CD2-800F-88F768D3E0BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracerSamplerCommon", "TracerSamplerCommon\TracerSamplerCommon.csproj", "{2C103EE1-B433-445B-8204-F0B49E55AC9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TracerSamplerCommon", "TracerSamplerCommon\TracerSamplerCommon.csproj", "{2C103EE1-B433-445B-8204-F0B49E55AC9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpeverSampleReceiver", "EpeverSampleReceiver\EpeverSampleReceiver.csproj", "{F1112D0E-9550-4A1A-B99F-AA220283D8C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2C103EE1-B433-445B-8204-F0B49E55AC9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C103EE1-B433-445B-8204-F0B49E55AC9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C103EE1-B433-445B-8204-F0B49E55AC9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1112D0E-9550-4A1A-B99F-AA220283D8C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1112D0E-9550-4A1A-B99F-AA220283D8C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1112D0E-9550-4A1A-B99F-AA220283D8C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1112D0E-9550-4A1A-B99F-AA220283D8C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

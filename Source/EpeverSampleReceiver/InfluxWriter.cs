@@ -36,7 +36,7 @@ namespace EpeverSampleReceiver
             _dbName = database;
         }
 
-        public async void Write(object? sender, TracerSample sample)
+        public async void Write(object? sender, DataSample sample, params (string tag, string value)[] tags)
         {
             List<PointData> mmts = new List<PointData>();
 
@@ -45,6 +45,11 @@ namespace EpeverSampleReceiver
                 var s = PointData.Measurement(d.Key)
                     .Field("value", d.Value)
                     .Timestamp(sample.TimeStamp, WritePrecision.Ms);
+
+                foreach (var valueTuple in tags)
+                {
+                    s.Tag(valueTuple.tag, valueTuple.value);
+                }
 
                 mmts.Add(s);
             }

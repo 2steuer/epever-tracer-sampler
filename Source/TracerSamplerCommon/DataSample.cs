@@ -2,18 +2,18 @@
 
 namespace TracerSamplerCommon
 {
-    public class TracerSample
+    public class DataSample
     {
         public DateTime TimeStamp { get; set; }
 
         public Dictionary<string, double> Data { get; set; } = null!;
 
-        public TracerSample()
+        public DataSample()
         {
             // this constructor is here to make the json converter do its work!
         }
 
-        public TracerSample(DateTime timeStamp, Dictionary<string, double> data)
+        public DataSample(DateTime timeStamp, Dictionary<string, double> data)
         {
             TimeStamp = timeStamp;
             Data = data;
@@ -24,9 +24,9 @@ namespace TracerSamplerCommon
             return JsonConvert.SerializeObject(this);
         }
 
-        public static TracerSample? FromJson(string json)
+        public static DataSample? FromJson(string json)
         {
-            return JsonConvert.DeserializeObject<TracerSample>(json);
+            return JsonConvert.DeserializeObject<DataSample>(json);
         }
     }
 }

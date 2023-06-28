@@ -16,7 +16,7 @@ namespace EpeverTracerSampler.Sampler
         {
         }
 
-        public async void SendSample(object? sender, TracerSample sample)
+        public async void SendSample(object? sender, DataSample sample)
         {
             var msg = new ManagedMqttApplicationMessageBuilder()
                 .WithApplicationMessage(new MqttApplicationMessageBuilder()

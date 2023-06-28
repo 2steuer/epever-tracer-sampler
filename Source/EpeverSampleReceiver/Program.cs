@@ -6,6 +6,9 @@ using NLog;
 using System.Drawing;
 using EpeverSampleReceiver;
 using TracerSamplerCommon;
+using EpeverSampleReceiver = EpeverSampleReceiver.Receivers.EpeverSampleHandler;
+using EpeverSampleReceiver.Receivers;
+using EpeverSampleReceiver.Receivers.Rain;
 
 ILogger _log =  LogManager.GetCurrentClassLogger();
 
@@ -28,7 +31,8 @@ var db = new InfluxWriter(
     cfg.GetValue<string>("Influx:Database", string.Empty)!
 );
 
-mqtt.NewSample += db.Write;
+mqtt.AddHandler("/samples", new EpeverSampleHandler(db.Write));
+mqtt.AddHandler("garten/rtl_433/TFA-Drop/941791", new TfaDropReceiver(db.Write));
 
 await mqtt.Start();
 

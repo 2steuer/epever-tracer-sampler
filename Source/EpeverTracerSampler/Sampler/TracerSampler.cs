@@ -15,7 +15,7 @@ namespace EpeverTracerSampler.Sampler
     {
         private static ILogger _log = LogManager.GetCurrentClassLogger();
 
-        public event Action<object, TracerSample>? NewSample; 
+        public event Action<object, DataSample>? NewSample; 
 
         private readonly ModbusRtuClient _clt;
 
@@ -68,7 +68,7 @@ namespace EpeverTracerSampler.Sampler
                 double batteryTemp = r[0x10] / 100.0; // 0x3110, 1/100 °C
                 double deviceTemp = r[0x11] / 100.0; // 0x3111, 1/100 °C
 
-                var s = new TracerSample(DateTime.Now, new()
+                var s = new DataSample(DateTime.Now, new()
             {
                 {"solarVoltage", pvVoltage},
                 {"solarCurrent", pvCurrent},

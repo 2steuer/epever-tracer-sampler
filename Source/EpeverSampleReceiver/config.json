@@ -21,5 +21,6 @@
       "OnPayload": "Online",
       "OffPayload": "Offline"
     }
-  }
+  },
+  "RainSensorTopic": "rtl_433/TFA-Drop/989996"
 }

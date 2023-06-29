@@ -57,7 +57,14 @@ namespace EpeverSampleReceiver
             var wrt = _db.GetWriteApiAsync();
             try
             {
-                await wrt.WritePointsAsync(mmts, _dbName);
+                if (mmts.Count == 1)
+                {
+                    await wrt.WritePointAsync(mmts[0], _dbName);
+                }
+                else if (mmts.Count > 1)
+                {
+                    await wrt.WritePointsAsync(mmts, _dbName);
+                }
             }
             catch (Exception e)
             {

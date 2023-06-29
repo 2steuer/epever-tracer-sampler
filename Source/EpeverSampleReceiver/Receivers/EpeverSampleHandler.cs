@@ -21,7 +21,7 @@ namespace EpeverSampleReceiver.Receivers
 
         public void HandleMessage(string payload)
         {
-            _log.Debug($"Sample received!");
+            _log.Trace($"Sample received!");
 
             try
             {

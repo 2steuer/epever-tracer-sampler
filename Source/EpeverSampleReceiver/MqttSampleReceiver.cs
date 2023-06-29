@@ -29,6 +29,8 @@ namespace EpeverSampleReceiver
         {
             var t = topic.StartsWith("/") ? $"{Options.BaseTopic}{topic}" : topic;
 
+            _log.Info($"Subscribing to {t}");
+
             _handlers.Add(t, messageReceiver);
         }
 

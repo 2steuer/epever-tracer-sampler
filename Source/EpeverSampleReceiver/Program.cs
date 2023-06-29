@@ -32,7 +32,7 @@ var db = new InfluxWriter(
 );
 
 mqtt.AddHandler("/samples", new EpeverSampleHandler(db.Write));
-mqtt.AddHandler(cfg.GetValue<string>("RainSensorTopic", string.Empty)!, new TfaDropReceiver(db.Write));
+mqtt.AddHandler(cfg.GetValue<string>("RainSensorTopic") ?? throw new ArgumentException("Rainfall sensor topic not configured."), new TfaDropReceiver(db.Write));
 
 await mqtt.Start();
 

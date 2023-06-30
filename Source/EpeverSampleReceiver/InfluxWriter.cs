@@ -33,7 +33,6 @@ namespace EpeverSampleReceiver
             };
 
             _db = new InfluxDBClient(opt);
-            _db.SetLogLevel(LogLevel.Headers);
             
             _dbName = database;
         }

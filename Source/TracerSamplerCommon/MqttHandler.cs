@@ -46,7 +46,7 @@ namespace TracerSamplerCommon
             ob.WithClientOptions(co =>
             {
                 co.WithTcpServer(_opt.Host, _opt.Port);
-                co.WithClientId(_opt.ClientId);
+                co.WithClientId($"{_opt.ClientId}{Guid.NewGuid()}");
                 if (_opt.Authenticate)
                 {
                     co.WithCredentials(_opt.User, _opt.Password);

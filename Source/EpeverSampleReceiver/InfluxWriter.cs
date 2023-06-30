@@ -9,6 +9,7 @@ using InfluxDB.Client.Core;
 using InfluxDB.Client.Writes;
 using NLog;
 using TracerSamplerCommon;
+using LogLevel = InfluxDB.Client.Core.LogLevel;
 
 namespace EpeverSampleReceiver
 {
@@ -32,6 +33,7 @@ namespace EpeverSampleReceiver
             };
 
             _db = new InfluxDBClient(opt);
+            _db.SetLogLevel(LogLevel.Headers);
             
             _dbName = database;
         }
@@ -53,8 +55,9 @@ namespace EpeverSampleReceiver
 
                 mmts.Add(s);
             }
-
+            
             var wrt = _db.GetWriteApiAsync();
+            
             try
             {
                 if (mmts.Count == 1)

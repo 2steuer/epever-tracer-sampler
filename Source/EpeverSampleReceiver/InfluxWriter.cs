@@ -49,7 +49,7 @@ namespace EpeverSampleReceiver
 
                 foreach (var valueTuple in tags)
                 {
-                    s.Tag(valueTuple.tag, valueTuple.value);
+                    s = s.Tag(valueTuple.tag, valueTuple.value);
                 }
 
                 mmts.Add(s);

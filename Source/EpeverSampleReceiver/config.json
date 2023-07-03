@@ -23,7 +23,7 @@
     }
   },
   "RainSensorTopic": "garten/rtl_433/TFA-Drop/989996",
-  "TempHumSensIndoor": "",
-  "TempHumSensOutdoor": "",
-  "TempHumSensGreenhouse": ""
+  "TempHumSensIndoor": "garten/rtl_433/Bresser-3CH/44",
+  "TempHumSensOutdoor": "no-topic-1",
+  "TempHumSensGreenhouse": "no-topic-2"
 }

@@ -9,6 +9,7 @@ using TracerSamplerCommon;
 using EpeverSampleReceiver = EpeverSampleReceiver.Receivers.EpeverSampleHandler;
 using EpeverSampleReceiver.Receivers;
 using EpeverSampleReceiver.Receivers.Rain;
+using EpeverSampleReceiver.Receivers.TempHumidity;
 
 ILogger _log =  LogManager.GetCurrentClassLogger();
 
@@ -33,6 +34,10 @@ var db = new InfluxWriter(
 
 mqtt.AddHandler("/samples", new EpeverSampleHandler(db.Write));
 mqtt.AddHandler(cfg.GetValue<string>("RainSensorTopic") ?? throw new ArgumentException("Rainfall sensor topic not configured."), new TfaDropReceiver(db.Write));
+
+mqtt.AddHandler(cfg.GetValue<string>("TempHumSensIndoor")!, new BresserTempHumidityReceiver(db.Write, "indoor"));
+mqtt.AddHandler(cfg.GetValue<string>("TempHumSensOutdoor")!, new BresserTempHumidityReceiver(db.Write, "outdoor"));
+mqtt.AddHandler(cfg.GetValue<string>("TempHumSensGreenhouse")!, new BresserTempHumidityReceiver(db.Write, "greenhouse"));
 
 await mqtt.Start();
 

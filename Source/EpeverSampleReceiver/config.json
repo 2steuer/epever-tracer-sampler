@@ -1,14 +1,14 @@
 {
   "Influx": {
-    "Url": "http://localhost:8086",
-    "User": "",
-    "Password": "",
-    "Organization": "",
-    "Database": "",
-    "Token": ""
+    "Url": "http://10.8.0.1:8086",
+    "User": "garten",
+    "Password": "gartendaten",
+    "Organization": "garten",
+    "Database": "garten",
+    "Token": "g3B7wn75P1BYOE_VMZNedirQYVb0FfSUfkouBbV6HYFzpyTvI1hHG1UPHjjK-N9wViFHXWKjDIRntZchdPfkVA=="
   },
   "Mqtt": {
-    "Host": "localhost",
+    "Host": "10.8.0.1",
     "Port": 1883,
     "Authenticate": false,
     "User": "",
@@ -22,5 +22,8 @@
       "OffPayload": "Offline"
     }
   },
-  "RainSensorTopic": "rtl_433/TFA-Drop/989996"
+  "RainSensorTopic": "garten/rtl_433/TFA-Drop/989996",
+  "TempHumSensIndoor": "",
+  "TempHumSensOutdoor": "",
+  "TempHumSensGreenhouse": ""
 }

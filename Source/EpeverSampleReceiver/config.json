@@ -13,7 +13,7 @@
     "Authenticate": false,
     "User": "",
     "Password": "",
-    "BaseTopic": "garten/solar",
+    "BaseTopic": "garten/solarx",
     "ClientId": "Sampler",
     "State": {
       "PublishState": true,
@@ -22,8 +22,15 @@
       "OffPayload": "Offline"
     }
   },
-  "RainSensorTopic": "garten/rtl_433/TFA-Drop/989996",
-  "TempHumSensIndoor": "garten/rtl_433/Bresser-3CH/44",
+  "RainSensorTopic": "xgarten/rtl_433/TFA-Drop/989996",
+  "TempHumSensIndoor": "xgarten/rtl_433/Bresser-3CH/44",
   "TempHumSensOutdoor": "no-topic-1",
-  "TempHumSensGreenhouse": "no-topic-2"
+  "TempHumSensGreenhouse": "no-topic-2",
+  "XH300": {
+    "Topic": "garten/rtl_433/Opus-XT300",
+    "Channels": {
+      "1": "greenhouse",
+      "2": "beet_hecke"
+    }
+  }
 }

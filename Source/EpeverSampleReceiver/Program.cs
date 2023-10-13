@@ -9,6 +9,7 @@ using TracerSamplerCommon;
 using EpeverSampleReceiver = EpeverSampleReceiver.Receivers.EpeverSampleHandler;
 using EpeverSampleReceiver.Receivers;
 using EpeverSampleReceiver.Receivers.Rain;
+using EpeverSampleReceiver.Receivers.Soil;
 using EpeverSampleReceiver.Receivers.TempHumidity;
 
 ILogger _log =  LogManager.GetCurrentClassLogger();
@@ -38,6 +39,15 @@ mqtt.AddHandler(cfg.GetValue<string>("RainSensorTopic") ?? throw new ArgumentExc
 mqtt.AddHandler(cfg.GetValue<string>("TempHumSensIndoor")!, new BresserTempHumidityReceiver(db.Write, "indoor"));
 mqtt.AddHandler(cfg.GetValue<string>("TempHumSensOutdoor")!, new BresserTempHumidityReceiver(db.Write, "outdoor"));
 mqtt.AddHandler(cfg.GetValue<string>("TempHumSensGreenhouse")!, new BresserTempHumidityReceiver(db.Write, "greenhouse"));
+
+
+var xh300topic = cfg.GetValue<string>("XH300:Topic");
+var xh300channels = new Dictionary<int, string>();
+xh300channels.Add(1, cfg.GetValue<string>("XH300:Channels:1")!);
+xh300channels.Add(2, cfg.GetValue<string>("XH300:Channels:2")!);
+
+
+mqtt.AddHandler(xh300topic, new XH300Receiver(db.Write, xh300channels));
 
 await mqtt.Start();
 

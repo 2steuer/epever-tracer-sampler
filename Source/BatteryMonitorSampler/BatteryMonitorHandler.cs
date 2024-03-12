@@ -76,6 +76,8 @@ namespace BatteryMonitorSampler
                         { "busCurrent", current },
                         { "busPower", power }
                     });
+
+		    NewSample?.Invoke(this, sample);
                 }
                 catch (TimeoutException)
                 {

@@ -12,6 +12,8 @@ namespace EpeverTracerSampler.Sampler
 {
     public class SamplerMqttHandler : MqttHandler
     {
+        public string SampleTopic { get; set; } = "samples";
+
         public SamplerMqttHandler(MqttOptions options) : base(options)
         {
         }
@@ -20,7 +22,7 @@ namespace EpeverTracerSampler.Sampler
         {
             var msg = new ManagedMqttApplicationMessageBuilder()
                 .WithApplicationMessage(new MqttApplicationMessageBuilder()
-                    .WithTopic($"{Options.BaseTopic}/samples")
+                    .WithTopic($"{Options.BaseTopic}/{SampleTopic}")
                     .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
                     .WithPayload(sample.ToJson())
                     .WithContentType("application/json")

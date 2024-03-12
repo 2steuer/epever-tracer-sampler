@@ -34,6 +34,7 @@ var db = new InfluxWriter(
 );
 
 mqtt.AddHandler("/samples", new EpeverSampleHandler(db.Write));
+mqtt.AddHandler("/battery-monitor", new EpeverSampleHandler(db.Write));
 mqtt.AddHandler(cfg.GetValue<string>("RainSensorTopic") ?? throw new ArgumentException("Rainfall sensor topic not configured."), new TfaDropReceiver(db.Write));
 
 mqtt.AddHandler(cfg.GetValue<string>("TempHumSensIndoor")!, new BresserTempHumidityReceiver(db.Write, "indoor"));

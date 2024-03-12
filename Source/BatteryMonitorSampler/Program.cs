@@ -21,6 +21,7 @@ var baud = cfg.GetValue<int>("Monitor:Baudrate");
 var mqttOpt = MqttOptions.FromConfig(cfg.GetSection("Mqtt"));
 
 var mqtt = new SamplerMqttHandler(mqttOpt);
+mqtt.SampleTopic = "battery-monitor";
 await mqtt.Start();
 
 var mon = new BatteryMonitorHandler(port, baud);

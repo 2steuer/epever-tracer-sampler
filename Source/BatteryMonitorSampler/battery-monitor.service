@@ -6,7 +6,7 @@ After=mosquitto.service
 [Service]
 User=merlin
 ExecStart=/opt/dotnet/dotnet /opt/battery-monitor/BatteryMonitorSampler.dll /etc/battery-monitor.json
-WorkingDirectory=/opt/solar-sampler
+WorkingDirectory=/opt/battery-monitor
 RestartSec=30
 Restart=on-failure
 SyslogIdentifier=battery-monitor

@@ -10,7 +10,7 @@ using TracerSamplerCommon;
 
 namespace EpeverTracerSampler.Sampler
 {
-    internal class SamplerMqttHandler : MqttHandler
+    public class SamplerMqttHandler : MqttHandler
     {
         public SamplerMqttHandler(MqttOptions options) : base(options)
         {

@@ -1,0 +1,21 @@
+{
+  "Monitor": {
+    "Port": "COM3",
+    "Baudrate": 115200
+  },
+  "Mqtt": {
+    "Host": "localhost",
+    "Port": 1883,
+    "Authenticate": false,
+    "User": "",
+    "Password": "",
+    "BaseTopic": "solar",
+    "ClientId": "BatteryMonitor",
+    "State": {
+      "PublishState": true,
+      "Topic": "solar/batterymonitor_state",
+      "OnPayload": "Online",
+      "OffPayload": "Offline"
+    }
+  }
+}

@@ -67,7 +67,7 @@ namespace BatteryMonitorSampler
                     var parts = l.Split('\t');
 
                     var busVoltage = double.Parse(parts[0], CultureInfo.InvariantCulture);
-                    var current = double.Parse(parts[1], CultureInfo.InvariantCulture);
+                    var current = double.Parse(parts[1], CultureInfo.InvariantCulture) / 1000.0;
                     var power = double.Parse(parts[2], CultureInfo.InvariantCulture);
 
                     DataSample sample = new DataSample(DateTime.Now, new()
@@ -77,7 +77,7 @@ namespace BatteryMonitorSampler
                         { "busPower", power }
                     });
 
-		    NewSample?.Invoke(this, sample);
+		            NewSample?.Invoke(this, sample);
                 }
                 catch (TimeoutException)
                 {

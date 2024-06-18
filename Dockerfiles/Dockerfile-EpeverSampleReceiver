@@ -1,0 +1,16 @@
+FROM bitnami/dotnet-sdk:8 AS build-env
+WORKDIR /build
+
+COPY ./ ./
+
+WORKDIR /build/Source
+
+RUN dotnet restore
+RUN dotnet publish -o /build/out EpeverSampleReceiver/EpeverSampleReceiver.csproj
+
+FROM bitnami/dotnet:8
+WORKDIR /app
+COPY --from=build-env /build/out .
+RUN mkdir /config
+
+CMD ["dotnet", "EpeverSampleReceiver.dll", "/config/config.json"]

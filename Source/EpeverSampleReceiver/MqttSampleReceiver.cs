@@ -12,7 +12,7 @@ using TracerSamplerCommon;
 
 namespace EpeverSampleReceiver
 {
-    public delegate void SampleWriterDelegate(object? sender, DataSample sample, params (string tag, string value)[] tags);
+    public delegate void SampleWriterDelegate(object? sender, string measurementName, DataSample sample, params (string tag, string value)[] tags);
 
     internal class MqttSampleReceiver : MqttHandler
     {

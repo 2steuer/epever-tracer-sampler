@@ -37,36 +37,27 @@ namespace EpeverSampleReceiver
             _dbName = database;
         }
 
-        public async void Write(object? sender, DataSample sample, params (string tag, string value)[] tags)
+        public async void Write(object? sender, string measurementName, DataSample sample, params (string tag, string value)[] tags)
         {
-            List<PointData> mmts = new List<PointData>();
+            PointData point = PointData.Measurement(measurementName)
+                .Timestamp(sample.TimeStamp, WritePrecision.Ms);;
 
             foreach (var d in sample.Data)
             {
-                var s = PointData.Measurement(d.Key)
-                    .Field("value", d.Value)
-                    .Timestamp(sample.TimeStamp, WritePrecision.Ms);
+                point = point.Field(d.Key, d.Value);
+                    
 
                 foreach (var valueTuple in tags)
                 {
-                    s = s.Tag(valueTuple.tag, valueTuple.value);
+                    point = point.Tag(valueTuple.tag, valueTuple.value);
                 }
-
-                mmts.Add(s);
             }
             
             var wrt = _db.GetWriteApiAsync();
             
             try
             {
-                if (mmts.Count == 1)
-                {
-                    await wrt.WritePointAsync(mmts[0], _dbName);
-                }
-                else if (mmts.Count > 1)
-                {
-                    await wrt.WritePointsAsync(mmts, _dbName);
-                }
+                await wrt.WritePointAsync(point, _dbName);
             }
             catch (Exception e)
             {

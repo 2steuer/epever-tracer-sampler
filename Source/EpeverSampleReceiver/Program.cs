@@ -11,6 +11,7 @@ using EpeverSampleReceiver.Receivers;
 using EpeverSampleReceiver.Receivers.Rain;
 using EpeverSampleReceiver.Receivers.Soil;
 using EpeverSampleReceiver.Receivers.TempHumidity;
+using System.Configuration;
 
 ILogger _log =  LogManager.GetCurrentClassLogger();
 
@@ -33,19 +34,18 @@ var db = new InfluxWriter(
     cfg.GetValue<string>("Influx:Database", string.Empty)!
 );
 
-mqtt.AddHandler("/samples", new EpeverSampleHandler(db.Write));
-mqtt.AddHandler("/battery-monitor", new EpeverSampleHandler(db.Write));
+mqtt.AddHandler("/samples", new EpeverSampleHandler(db.Write, "solar"));
+mqtt.AddHandler("/battery-monitor", new EpeverSampleHandler(db.Write, "battery"));
 mqtt.AddHandler(cfg.GetValue<string>("RainSensorTopic") ?? throw new ArgumentException("Rainfall sensor topic not configured."), new TfaDropReceiver(db.Write));
 
-mqtt.AddHandler(cfg.GetValue<string>("TempHumSensIndoor")!, new BresserTempHumidityReceiver(db.Write, "indoor"));
-mqtt.AddHandler(cfg.GetValue<string>("TempHumSensOutdoor")!, new BresserTempHumidityReceiver(db.Write, "outdoor"));
-mqtt.AddHandler(cfg.GetValue<string>("TempHumSensGreenhouse")!, new BresserTempHumidityReceiver(db.Write, "greenhouse"));
+var tempHumTopic = cfg.GetValue<string>("TempHum:Topic") ?? throw new ConfigurationErrorsException("Temp Hum Topic not given.");
+var tempHumChannels = cfg.GetChannelMapping("TempHum:Channels");
+
+mqtt.AddHandler(tempHumTopic, new BresserTempHumidityReceiver(db.Write, tempHumChannels));
 
 
-var xh300topic = cfg.GetValue<string>("XH300:Topic");
-var xh300channels = new Dictionary<int, string>();
-xh300channels.Add(1, cfg.GetValue<string>("XH300:Channels:1")!);
-xh300channels.Add(2, cfg.GetValue<string>("XH300:Channels:2")!);
+var xh300topic = cfg.GetValue<string>("XH300:Topic") ?? throw new ConfigurationErrorsException("XH300 topic not given.");
+var xh300channels = cfg.GetChannelMapping("XH300:Channels");
 
 
 mqtt.AddHandler(xh300topic, new XH300Receiver(db.Write, xh300channels));

@@ -54,13 +54,13 @@ namespace EpeverSampleReceiver.Receivers.Soil
 
                 Dictionary<string, double> dic = new Dictionary<string, double>
                 {
-                    { "soil_temperature", s.Temperature },
-                    { "soil_moisture", s.Moisture }
+                    { "temperature", s.Temperature },
+                    { "moisture", s.Moisture }
                 };
 
                 var ds = new DataSample(s.Timestamp, dic);
 
-                _writer(this, ds, ("location", location));
+                _writer(this, "soil-data", ds, ("location", location));
             }
             catch (Exception e)
             {

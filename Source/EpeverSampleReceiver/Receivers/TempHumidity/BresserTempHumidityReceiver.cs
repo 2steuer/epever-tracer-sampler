@@ -14,12 +14,13 @@ namespace EpeverSampleReceiver.Receivers.TempHumidity
         private static ILogger _log = LogManager.GetCurrentClassLogger();
 
         private SampleWriterDelegate _writer;
-        private string _locationTag;
 
-        public BresserTempHumidityReceiver(SampleWriterDelegate writer, string locationTag)
+        private Dictionary<int, string> _channels;
+
+        public BresserTempHumidityReceiver(SampleWriterDelegate writer, Dictionary<int, string> channels)
         {
             _writer = writer;
-            _locationTag = locationTag;
+            _channels = channels;
         }
 
         public void HandleMessage(string payload)
@@ -27,13 +28,20 @@ namespace EpeverSampleReceiver.Receivers.TempHumidity
             try
             {
                 var d = JsonConvert.DeserializeObject<TempHumiditySample>(payload);
+
+                if (!_channels.ContainsKey(d.Channel))
+                {
+                    _log.Warn("Received temperature data with undefined channel.");
+                    return;
+                }
+
                 d.Timestamp = DateTime.SpecifyKind(d.Timestamp, DateTimeKind.Local);
 
                 Dictionary<string, double> v = new Dictionary<string, double>();
                 v.Add("temperature", d.TempC);
                 v.Add("humidity", d.Humidity);
 
-                _writer(this, new DataSample(d.Timestamp, v), ("location", _locationTag));
+                _writer(this, "climate", new DataSample(d.Timestamp, v), ("location", _channels[d.Channel]));
             }
             catch (Exception e)
             {

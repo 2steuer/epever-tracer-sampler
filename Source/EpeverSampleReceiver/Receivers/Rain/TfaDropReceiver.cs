@@ -36,7 +36,7 @@ namespace EpeverSampleReceiver.Receivers.Rain
 
                 var ds = new DataSample(s.Timestamp, dic);
 
-                _writer(this, ds);
+                _writer(this, "rain", ds);
             }
             catch (Exception e)
             {

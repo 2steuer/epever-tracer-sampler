@@ -14,9 +14,12 @@ namespace EpeverSampleReceiver.Receivers
 
         private SampleWriterDelegate _writer;
 
-        public EpeverSampleHandler(SampleWriterDelegate writer)
+        private string _measurementName;
+
+        public EpeverSampleHandler(SampleWriterDelegate writer, string measurementName)
         {
             _writer = writer;
+            measurementName = _measurementName ?? string.Empty;
         }
 
         public void HandleMessage(string payload)
@@ -27,7 +30,7 @@ namespace EpeverSampleReceiver.Receivers
             {
                 var sample = DataSample.FromJson(payload);
 
-                _writer(this, sample!); // sample should not be null here, otherwise throw NullReferenceException
+                _writer(this, _measurementName, sample!); // sample should not be null here, otherwise throw NullReferenceException
             }
             catch (Exception e)
             {

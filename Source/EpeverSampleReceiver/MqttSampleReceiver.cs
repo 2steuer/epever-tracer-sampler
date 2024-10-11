@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using EpeverSampleReceiver.Receivers;
 using MQTTnet;
 using MQTTnet.Extensions.ManagedClient;
+using MQTTnet.Protocol;
+using MQTTnet.Server.Internal;
 using NLog;
 using TracerSamplerCommon;
 
@@ -40,7 +42,7 @@ namespace EpeverSampleReceiver
             {
                 var f = new MqttTopicFilterBuilder()
                     .WithTopic(messageReceiver.Key).Build();
-
+                
                 await Client.SubscribeAsync(new[] { f });
             }
 
@@ -49,14 +51,17 @@ namespace EpeverSampleReceiver
 
         private Task MessageReceived(MqttApplicationMessageReceivedEventArgs arg)
         {
-            if (!_handlers.ContainsKey(arg.ApplicationMessage.Topic))
+            var handler = _handlers
+                .FirstOrDefault(kvp => MqttTopicFilterComparer.IsMatch(arg.ApplicationMessage.Topic, kvp.Key));
+
+            if (handler.Value == null)
             {
                 return Task.CompletedTask;
             }
 
             var pl = arg.ApplicationMessage.ConvertPayloadToString();
 
-            _handlers[arg.ApplicationMessage.Topic].HandleMessage(pl);
+            handler.Value.HandleMessage(pl);
 
             return Task.CompletedTask;
         }

@@ -24,11 +24,11 @@
   },
   "RainSensorTopic": "xgarten/rtl_433/TFA-Drop/989996",
   "TempHumSens": {
-    "Topic": "xgarten/rtl_433/Bresser-3CH/+",
+    "Topic": "garten/rtl_433/Bresser-3CH/+",
     "Channels": {
-      "1": "",
-      "2": "",
-      "3": ""
+      "1": "indoor",
+      "2": "outdoor",
+      "3": "greenhouse"
     }
   },
   "XH300": {

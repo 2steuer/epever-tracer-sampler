@@ -23,7 +23,7 @@
     }
   },
   "RainSensorTopic": "xgarten/rtl_433/TFA-Drop/989996",
-  "TempHumSens": {
+  "TempHum": {
     "Topic": "garten/rtl_433/Bresser-3CH/+",
     "Channels": {
       "1": "indoor",

@@ -19,7 +19,7 @@ namespace EpeverSampleReceiver.Receivers
         public EpeverSampleHandler(SampleWriterDelegate writer, string measurementName)
         {
             _writer = writer;
-            measurementName = _measurementName ?? string.Empty;
+            _measurementName = measurementName ?? string.Empty;
         }
 
         public void HandleMessage(string payload)

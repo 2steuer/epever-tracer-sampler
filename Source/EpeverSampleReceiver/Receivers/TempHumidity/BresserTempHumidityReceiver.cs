@@ -35,7 +35,7 @@ namespace EpeverSampleReceiver.Receivers.TempHumidity
                     return;
                 }
 
-                //d.Timestamp = DateTime.SpecifyKind(d.Timestamp, DateTimeKind.Local);
+                d.Timestamp = DateTime.SpecifyKind(d.Timestamp, DateTimeKind.Local);
 
                 Dictionary<string, double> v = new Dictionary<string, double>();
                 v.Add("temperature", d.TempC);

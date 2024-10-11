@@ -36,7 +36,7 @@ namespace EpeverSampleReceiver.Receivers.Soil
             try
             {
                 var s = JsonConvert.DeserializeObject<OpusXH300Sample>(payload);
-                //s.Timestamp = DateTime.SpecifyKind(s.Timestamp, DateTimeKind.Local);
+                s.Timestamp = DateTime.SpecifyKind(s.Timestamp, DateTimeKind.Local);
 
                 if (!_lastSamples.ContainsKey(s.Channel))
                 {

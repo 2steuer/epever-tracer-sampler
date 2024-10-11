@@ -27,7 +27,7 @@ namespace EpeverSampleReceiver.Receivers.Rain
             try
             {
                 var s = JsonConvert.DeserializeObject<RainSample>(payload);
-                //s.Timestamp = DateTime.SpecifyKind(s.Timestamp, DateTimeKind.Local);
+                s.Timestamp = DateTime.SpecifyKind(s.Timestamp, DateTimeKind.Local);
 
                 _log.Debug($"Timestamp: {s.Timestamp}, Rainfall: {s.RaimMillimeters}");
 

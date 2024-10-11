@@ -40,7 +40,7 @@ namespace EpeverSampleReceiver
         public async void Write(object? sender, string measurementName, DataSample sample, params (string tag, string value)[] tags)
         {
             PointData point = PointData.Measurement(measurementName)
-                .Timestamp(sample.TimeStamp, WritePrecision.Ms);;
+                .Timestamp(sample.TimeStamp.ToUniversalTime(), WritePrecision.Ms);
 
             foreach (var d in sample.Data)
             {

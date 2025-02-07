@@ -72,12 +72,6 @@ namespace TracerSamplerCommon
             await c.StartAsync(ob.Build());
             _client = c;
 
-            await _client.PublishAsync(new MqttApplicationMessageBuilder()
-                .WithTopic(_opt.StateTopic)
-                .WithRetainFlag(true)
-                .WithPayload(_opt.StateOnPayload)
-                .Build());
-
             _client.UseConnectedHandler(ConnectedHandler);
             _client.UseDisconnectedHandler(DisconnectedHandler);
 
@@ -97,7 +91,11 @@ namespace TracerSamplerCommon
         private Task ConnectedHandler(MqttClientConnectedEventArgs arg)
         {
             _log.Info("MQTT Connected");
-            return Task.CompletedTask;
+            return _client.PublishAsync(new MqttApplicationMessageBuilder()
+                .WithTopic(_opt.StateTopic)
+                .WithRetainFlag(true)
+                .WithPayload(_opt.StateOnPayload)
+                .Build());
         }
 
         public async Task Stop()
